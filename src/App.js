@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { useEffect, useState } from "react";
 import PrivateRoute from "./components/PrivateRoute";
+import Subscription from "./components/Subscription";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,14 +26,15 @@ function App() {
           path="/signup"
           element={<Signup setIsLoggedIn={setIsLoggedIn} />}
         />
-        {/* <Route
+        <Route
           path="/dashboard"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
-              <Dashboard />
+              <div>checked</div>
             </PrivateRoute>
           }
-        /> */}
+        />
+        <Route path="/subscription" element={<Subscription />} />
       </Routes>
     </div>
   );

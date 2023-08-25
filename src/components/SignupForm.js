@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SignupForm = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -16,7 +15,6 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [accountType, setAccountType] = useState("student");
 
   function changeHandler(event) {
     setFormData((prevData) => ({
@@ -25,89 +23,69 @@ const SignupForm = ({ setIsLoggedIn }) => {
     }));
   }
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
-    if (formData.password != formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
 
-    setIsLoggedIn(true);
-    toast.success("Account Created");
-    const accountData = {
-      ...formData,
+    const signupData = {
+      name: formData.firstName,
+      email: formData.email,
+      password: formData.password,
     };
+    try {
+      let url = "http://127.0.0.1:5000/api/user/signup";
 
-    const finalData = {
-      ...accountData,
-      accountType,
-    };
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupData),
+      });
 
-    console.log("printing Final account data ");
-    console.log(finalData);
+      const data = await response.json();
 
-    navigate("/dashboard");
+      if (data.status !== "success") {
+        toast.error(data.msg);
+        setFormData({
+          firstName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        return;
+      }
+      console.log(data);
+      setIsLoggedIn(true);
+      toast.success("Account Created");
+      navigate("/login");
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   return (
     <div>
-      {/* student-Instructor tab */}
-      {/* <div
-        className='flex bg-richblack-800 p-1 gap-x-1 my-6 rounded-full max-w-max'>
-
-            <button
-            className={`${accountType === "student" 
-            ?
-              "bg-richblack-900 text-richblack-5"
-            :"bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-            onClick={()=> setAccountType("student")}>
-                Student
-            </button>
-
-            <button
-            className={`${accountType === "instructor" 
-            ?
-              "bg-richblack-900 text-richblack-5"
-            :"bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-            onClick={() => setAccountType("instructor")}>
-                Instructor
-            </button>
-        </div> */}
-
       <form onSubmit={submitHandler}>
-        {/* first name and lastName */}
         <div className="flex gap-x-4 mt-[20px]">
           <label className="w-full">
             <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
-              First Name<sup className="text-pink-200">*</sup>
+              Name<sup className="text-pink-200">*</sup>
             </p>
             <input
               required
               type="text"
               name="firstName"
               onChange={changeHandler}
-              placeholder="Enter First Name"
-              value={formData.firstName}
-              className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
-            />
-          </label>
-
-          <label className="w-full">
-            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
-              Last Name<sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="lastName"
-              onChange={changeHandler}
-              placeholder="Enter Last Name"
-              value={formData.lastName}
+              placeholder="Enter Name"
+              value={formData.firstname}
               className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
             />
           </label>
         </div>
-        {/* email Add */}
         <div className="mt-[20px]">
           <label className="w-full mt-[20px]">
             <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
@@ -177,12 +155,15 @@ const SignupForm = ({ setIsLoggedIn }) => {
             </span>
           </label>
         </div>
-        <div className=" text-white mt-3">
-          <input value="test" type="checkbox" /> Remember Me
-        </div>
         <button className=" w-full bg-blue-900 rounded-[8px] font-medium text-white px-[12px] py-[8px] mt-6">
           Create Account
         </button>
+        <div className="flex justify-center p-2 text-blue-900">
+          <h3>Already have an account?</h3>
+          <NavLink to="/login" className="px-2 text-white">
+            Login
+          </NavLink>
+        </div>
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 const LoginForm = ({ setIsLoggedIn }) => {
@@ -20,13 +20,37 @@ const LoginForm = ({ setIsLoggedIn }) => {
     }));
   }
 
-  function submitHandler(event) {
+  async function submitHandler(event) {
     event.preventDefault();
-    setIsLoggedIn(true);
-    toast.success("Logged In");
-    console.log("Printing the formData ");
-    console.log(formData);
-    navigate("/dashboard");
+    try {
+      let url = "http://127.0.0.1:5000/api/user/login";
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (data.status !== "success") {
+        toast.error(data.msg);
+        setFormData({
+          email: "",
+          password: "",
+        });
+        return;
+      }
+      localStorage.setItem("token", data.token);
+      console.log(data);
+      setIsLoggedIn(true);
+      toast.success("Logged In");
+      navigate("/subscription");
+    } catch (err) {
+      toast.error("Server Error");
+      console.log(err);
+    }
   }
 
   return (
@@ -80,12 +104,15 @@ const LoginForm = ({ setIsLoggedIn }) => {
           </p>
         </Link>
       </label>
-      <div className=" text-white">
-        <input value="test" type="checkbox" /> Remember Me
-      </div>
       <button className=" bg-blue-900 rounded-[8px] font-medium text-white px-[12px] py-[8px] mt-0">
         Login
       </button>
+      <div className="flex justify-center p-2 text-blue-900">
+        <h3>New to MyApp?</h3>
+        <NavLink to="/signup" className="px-2 text-white">
+          Signup
+        </NavLink>
+      </div>
     </form>
   );
 };
