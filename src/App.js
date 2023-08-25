@@ -16,7 +16,7 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
 
       <Routes>
-        <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+        {/* <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} /> */}
         <Route
           path="/login"
           element={<Login setIsLoggedIn={setIsLoggedIn} />}
@@ -25,14 +25,14 @@ function App() {
           path="/signup"
           element={<Signup setIsLoggedIn={setIsLoggedIn} />}
         />
-        <Route
+        {/* <Route
           path="/dashboard"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <Dashboard />
             </PrivateRoute>
           }
-        />
+        /> */}
       </Routes>
     </div>
   );

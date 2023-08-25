@@ -49,7 +49,7 @@ const Navbar = (props) => {
             </button>
           </Link>
         )}
-        {isLoggedIn && (
+        {/* {isLoggedIn && (
           <Link to="/">
             <button
               onClick={() => {
@@ -62,8 +62,8 @@ const Navbar = (props) => {
               Log Out
             </button>
           </Link>
-        )}
-        {isLoggedIn && (
+        )} */}
+        {/* {isLoggedIn && (
           <Link to="/dashboard">
             <button
               className="bg-white text-black py-[8px] 
@@ -72,7 +72,7 @@ const Navbar = (props) => {
               Dashboard
             </button>
           </Link>
-        )}
+        )} */}
       </div>
     </div>
   );
