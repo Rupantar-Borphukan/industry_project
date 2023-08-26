@@ -37,7 +37,7 @@ const SignupForm = () => {
       password: formData.password,
     };
     try {
-      let url = "http://127.0.0.1:5000/api/user/signup";
+      let url = `${process.env.BACKEND_URL}/api/user/signup`;
 
       const response = await fetch(url, {
         method: "POST",

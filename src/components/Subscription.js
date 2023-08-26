@@ -9,7 +9,7 @@ const Subscription = () => {
   useEffect(() => {
     async function fetchData() {
       const token = localStorage.getItem("token");
-      let url = "http://127.0.0.1:5000/api/plan";
+      let url = `${process.env.BACKEND_URL}/api/plan`;
 
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,17 +32,14 @@ const Subscription = () => {
     };
 
     const token = localStorage.getItem("token");
-    const response = await fetch(
-      "http://127.0.0.1:5000/api/create_session_checkout",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await fetch(`${BACKEND_URL}/api/create_session_checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
     const session = await response.json();
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,

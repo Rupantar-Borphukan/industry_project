@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     async function getplan() {
       const token = localStorage.getItem("token");
-      const get_plan = await fetch("http://127.0.0.1:5000/api/user", {
+      const get_plan = await fetch(`${process.env.BACKEND_URL}/api/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -24,7 +24,7 @@ const LoginForm = () => {
   async function submitHandler(event) {
     event.preventDefault();
     try {
-      let url = "http://127.0.0.1:5000/api/user/login";
+      let url = `${process.env.BACKEND_URL}/api/user/login`;
 
       const response = await fetch(url, {
         method: "POST",

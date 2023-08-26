@@ -13,7 +13,7 @@ const Subscriptionsuccess = () => {
         planId: queryparams.get("plan_id"),
         isMonth: queryparams.get("is_month"),
       };
-      const setPlan = await fetch("http://127.0.0.1:5000/api/user/", {
+      const setPlan = await fetch(`${process.env.BACKEND_URL}/api/user/`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
