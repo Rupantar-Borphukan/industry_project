@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
-const SignupForm = ({ setIsLoggedIn }) => {
+const SignupForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -59,7 +60,6 @@ const SignupForm = ({ setIsLoggedIn }) => {
         return;
       }
       console.log(data);
-      setIsLoggedIn(true);
       toast.success("Account Created");
       navigate("/login");
     } catch (err) {
@@ -69,10 +69,13 @@ const SignupForm = ({ setIsLoggedIn }) => {
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="p-5 rounded-lg mt-6 bg-white">
+        <h2 className="font-semibold text-[1.875rem] leading-[2.375rem] text-center">
+          Create Account
+        </h2>
         <div className="flex gap-x-4 mt-[20px]">
           <label className="w-full">
-            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
               Name<sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -82,13 +85,13 @@ const SignupForm = ({ setIsLoggedIn }) => {
               onChange={changeHandler}
               placeholder="Enter Name"
               value={formData.firstname}
-              className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
+              className="bg-white rounded-[0.5rem] text-black w-full p-[12px] border"
             />
           </label>
         </div>
         <div className="mt-[20px]">
           <label className="w-full mt-[20px]">
-            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
               Email Address<sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -98,7 +101,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
               onChange={changeHandler}
               placeholder="Enter Email Address "
               value={formData.email}
-              className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
+              className="bg-white rounded-[0.5rem] text-black w-full p-[12px] border"
             />
           </label>
         </div>
@@ -106,7 +109,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
         {/* createPassword and Confirm Password */}
         <div className="w-full flex gap-x-4 mt-[20px]">
           <label className="w-full relative">
-            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
               Create Password<sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -116,7 +119,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
               onChange={changeHandler}
               placeholder="Enter Password"
               value={formData.password}
-              className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
+              className="bg-white rounded-[0.5rem] text-black w-full p-[12px] border"
             />
             <span
               className="absolute right-3 top-[38px] cursor-pointer"
@@ -131,7 +134,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
           </label>
 
           <label className="w-full relative">
-            <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+            <p className="text-[0.875rem]  mb-1 leading-[1.375rem]">
               Confirm Password<sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -141,7 +144,7 @@ const SignupForm = ({ setIsLoggedIn }) => {
               onChange={changeHandler}
               placeholder="Confirm Password"
               value={formData.confirmPassword}
-              className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
+              className="bg-white rounded-[0.5rem] text-black w-full p-[12px] border"
             />
             <span
               className="absolute right-3 top-[38px] cursor-pointer"
@@ -158,9 +161,9 @@ const SignupForm = ({ setIsLoggedIn }) => {
         <button className=" w-full bg-blue-900 rounded-[8px] font-medium text-white px-[12px] py-[8px] mt-6">
           Create Account
         </button>
-        <div className="flex justify-center p-2 text-blue-900">
+        <div className="flex justify-center p-2 ">
           <h3>Already have an account?</h3>
-          <NavLink to="/login" className="px-2 text-white">
+          <NavLink to="/login" className="px-2 text-blue-100">
             Login
           </NavLink>
         </div>

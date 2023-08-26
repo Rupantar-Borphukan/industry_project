@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import Navbar from "./Navbar";
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -43,9 +44,20 @@ const LoginForm = ({ setIsLoggedIn }) => {
         return;
       }
       localStorage.setItem("token", data.token);
-      console.log(data);
-      setIsLoggedIn(true);
       toast.success("Logged In");
+
+      const get_plan = await fetch("http://localhost:5000/api/user", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.token}`,
+        },
+      });
+      const user_plan = await get_plan.json();
+      if (user_plan.plan) {
+        navigate("/home");
+        return;
+      }
       navigate("/subscription");
     } catch (err) {
       toast.error("Server Error");
@@ -56,10 +68,13 @@ const LoginForm = ({ setIsLoggedIn }) => {
   return (
     <form
       onSubmit={submitHandler}
-      className="flex flex-col w-full gap-y-4 mt-6"
+      className="flex flex-col w-full gap-y-4 mt-6 bg-white p-5 rounded-lg"
     >
+      <h2 className="font-semibold text-[1.875rem] leading-[2.375rem] text-center mb-5">
+        Login to your account
+      </h2>
       <label className="w-full">
-        <p className="text-[0.875rem] text-white mb-1 leading-[1.375rem]">
+        <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
           Email Address<sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -69,12 +84,12 @@ const LoginForm = ({ setIsLoggedIn }) => {
           onChange={changeHandler}
           placeholder="Enter email address"
           name="email"
-          className="bg-white rounded-[0.5rem] text-black w-full p-[12px]"
+          className="bg-white rounded-[0.5rem] text-black w-full p-[12px] border"
         />
       </label>
 
       <label className="w-full relative">
-        <p className="text-[0.875rem] text-white mb-1 leading-[1.375rem]">
+        <p className="text-[0.875rem] mb-1 leading-[1.375rem]">
           Password<sup className="text-pink-200">*</sup>
         </p>
         <input
@@ -84,7 +99,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
           onChange={changeHandler}
           placeholder="Enter Password"
           name="password"
-          className="bg-white rounded-[0.5rem] text-black-5 w-full p-[12px]"
+          className="bg-white rounded-[0.5rem] text-black-5 w-full p-[12px] border"
         />
 
         <span
@@ -97,19 +112,13 @@ const LoginForm = ({ setIsLoggedIn }) => {
             <AiOutlineEye fontSize={24} fill="#AFB2BF" />
           )}
         </span>
-
-        <Link to="#">
-          <p className="text-xs mt-1 text-white max-w-max ml-auto">
-            Forgot Password
-          </p>
-        </Link>
       </label>
-      <button className=" bg-blue-900 rounded-[8px] font-medium text-white px-[12px] py-[8px] mt-0">
+      <button className=" bg-blue-100 rounded-[8px] font-medium text-white px-[12px] py-[8px] mt-0">
         Login
       </button>
-      <div className="flex justify-center p-2 text-blue-900">
+      <div className="flex justify-center p-2 ">
         <h3>New to MyApp?</h3>
-        <NavLink to="/signup" className="px-2 text-white">
+        <NavLink to="/signup" className="px-2 text-blue-100">
           Signup
         </NavLink>
       </div>

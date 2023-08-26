@@ -1,14 +1,8 @@
 import React from "react";
 import Template from "../components/Template";
 
-const Login = ({ setIsLoggedIn }) => {
-  return (
-    <Template
-      title="Login to your account"
-      formtype="login"
-      setIsLoggedIn={setIsLoggedIn}
-    />
-  );
+const Login = () => {
+  return <Template title="Login to your account" formtype="login" />;
 };
 
 export default Login;
