@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ const SignupForm = () => {
       password: formData.password,
     };
     try {
-      let url = `${process.env.BACKEND_URL}/api/user/signup`;
+      let url = `${process.env.REACT_APP_BACKEND_URL}/api/user/signup`;
 
       const response = await fetch(url, {
         method: "POST",

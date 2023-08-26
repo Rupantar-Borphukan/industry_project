@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import Navbar from "./Navbar";
+
+console.log(process.env);
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const LoginForm = () => {
   async function submitHandler(event) {
     event.preventDefault();
     try {
-      let url = `${process.env.BACKEND_URL}/api/user/login`;
+      let url = `${process.env.REACT_APP_BACKEND_URL}/api/user/login`;
 
       const response = await fetch(url, {
         method: "POST",

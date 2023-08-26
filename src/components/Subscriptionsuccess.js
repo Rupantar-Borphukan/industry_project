@@ -13,14 +13,17 @@ const Subscriptionsuccess = () => {
         planId: queryparams.get("plan_id"),
         isMonth: queryparams.get("is_month"),
       };
-      const setPlan = await fetch(`${process.env.BACKEND_URL}/api/user/`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const setPlan = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
       const data = await setPlan.json();
       if (data.status !== "success") {
         toast.error(data.msg);

@@ -13,8 +13,9 @@ function Card({ plan, isMonth, updateTime }) {
       (date.getMonth() + 1) +
       "-" +
       date.getDate();
+
   const cancelPlan = async () => {
-    const url = `${process.env.BACKEND_URL}/api/user/`;
+    const url = `${process.env.REACT_APP_BACKEND_URL}/api/user/`;
     const token = localStorage.getItem("token");
     const response = await fetch(url, {
       method: "DELETE",

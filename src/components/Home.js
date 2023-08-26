@@ -10,13 +10,16 @@ const Home = () => {
   useEffect(() => {
     async function getplan() {
       const token = localStorage.getItem("token");
-      const get_plan = await fetch(`${process.env.BACKEND_URL}/api/user`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const get_plan = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/user`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await get_plan.json();
       if (!data.plan) {
         navigate("/subscription");
